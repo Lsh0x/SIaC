@@ -14,3 +14,9 @@ Then terraform to initiate the infrastrucre instances, and finally ansible to co
 * Ansible
 * Packer
 
+
+## Packer images
+
+### Scaleway
+
+* [VPN](packers/scaleway/vpn/README.md)
