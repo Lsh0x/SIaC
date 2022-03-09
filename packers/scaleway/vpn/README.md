@@ -16,3 +16,10 @@ export SCW_SECRET_KEY=""
 export SCW_DEFAULT_ZONE=
 export SCW_DEFAULT_PROJECT_ID=
 ```
+
+## Build 
+
+To create the image just run : 
+```sh
+packer build packer.json
+```
