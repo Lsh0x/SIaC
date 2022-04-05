@@ -1,0 +1,42 @@
+{
+  "variables": {                                                                
+      "project_id": "{{ env `SCW_DEFAULT_PROJECT_ID` }}",
+      "access_key": "{{ env `SCW_ACCESS_KEY` }}",
+      "secret_key": "{{ env `SCW_SECRET_KEY` }}",
+      "zone": "{{ env `SCW_DEFAULT_ZONE` }}",
+      "image": "a3c87f45-c47d-4428-b0db-968827e57f80",
+      "type": "DEV1-S"
+  },
+  "builders": [
+    {
+      "project_id": "{{ user `project_id` }}",
+      "access_key": "{{ user `access_key` }}",
+      "secret_key": "{{ user `secret_key` }}",
+      "image_name": "dnscrypt",
+      "snapshot_name": "dnscrypt.snapshot",
+      "type": "scaleway",
+      "image": "{{ user `image` }}",
+      "zone": "{{ user `zone` }}",
+      "commercial_type": "{{ user `type` }}",
+      "ssh_username": "root"
+    }
+  ],
+  "provisioners": [
+   {   
+     "type": "shell",
+     "inline": [
+        "sleep 40",
+        "curl -sSf https://sh.rustup.rs | bash -s -- -y --default-toolchain nightly",
+        ". $HOME/.cargo/env",
+        "apt update",
+        "apt install -y build-essential ufw",
+        "cargo install encrypted-dns",
+        "strip ~/.cargo/bin/encrypted-dns",
+        "ufw allow 443/tcp",
+        "ufw allow 443/tcp",
+        "ufw allow 22/tcp",
+        "systemctl enable ufw.service"
+    ]   
+  }
+ ]
+}

@@ -20,3 +20,4 @@ Then terraform to initiate the infrastrucre instances, and finally ansible to co
 ### Scaleway
 
 * [VPN](packers/scaleway/vpn/README.md)
+* [VPN](packers/scaleway/dns/README.md)
