@@ -1,23 +1,57 @@
-# Introduction 
+# Terragrunt Configuration for Example
 
-System Information as Code aims to provide a framework to handle all the SI with code.
-It will remove manually mistake and automate the deployment.
-This should easier the creation of compagny, and their security
+This repository contains the Terragrunt configuration for deploying Example infrastructure.
 
-The SIaC will use packer to create the images.
-Then terraform to initiate the infrastrucre instances, and finally ansible to configure those instances.
+## Initialization and Planning
 
+To initialize the environment and generate a plan, run the following commands:
 
-## Requirement
+```bash
+terragrunt init --working-dir=environments/example.com/prod
+terragrunt plan --working-dir=environments/example.com/prod
+```
 
-* Terraform
-* Ansible
-* Packer
+## Terraform Configuration
 
+The configuration uses Terraform under the hood. The following variables are required:
 
-## Packer images
+- `zone`: The Scaleway zone to deploy in (e.g., "fr-par-1")
+- `region`: The Scaleway region to deploy in (e.g., "fr-par")
 
-### Scaleway
+## Provider Configuration
 
-* [VPN](packers/scaleway/vpn/README.md)
-* [DNS](packers/scaleway/dns/README.md)
+The Scaleway provider is configured with the specified zone and region:
+```terraform
+provider "scaleway" {
+  zone   = var.zone
+  region = var.region
+}
+```
+
+## Scaleway Profile Configuration
+
+Scaleway CLI uses profiles to manage different sets of credentials. You can:
+
+### View Available Profiles
+
+```bash
+cat ~/.config/scw/config.yaml
+```
+
+This will show all configured profiles and indicate which one is currently active.
+
+### Switch Between Profiles
+
+To change the active profile:
+
+```bash
+scw config profile activate <profile-name>
+```
+
+For example, to switch to the example.com profile:
+
+```bash
+scw config profile activate example.com
+```
+
+Make sure to set these variables appropriately before running `terragrunt apply`.
